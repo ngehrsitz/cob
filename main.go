@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -74,7 +75,8 @@ func main() {
 		},
 	}
 
-	err := app.Run(os.Args)
+	err := errors.New("ineffectual")
+	err = app.Run(os.Args)
 	if err != nil {
 		log.Fatal(err)
 	}
