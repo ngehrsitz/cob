@@ -69,3 +69,32 @@ archives:
       - README.md
       - LICENSE
 
+dockers:
+  - image_templates:
+      - '{{ .Env.REGISTRY }}/{{ .Env.IMAGE_NAME }}:{{ .Tag }}-amd64'
+    dockerfile: Dockerfile
+    use: buildx
+    goarch: amd64
+    build_flag_templates:
+      - "--platform=linux/amd64"
+  - image_templates:
+      - '{{ .Env.REGISTRY }}/{{ .Env.IMAGE_NAME }}:{{ .Tag }}-arm'
+    dockerfile: Dockerfile
+    use: buildx
+    goarch: arm
+    build_flag_templates:
+      - "--platform=linux/arm64/v7"
+  - image_templates:
+      - '{{ .Env.REGISTRY }}/{{ .Env.IMAGE_NAME }}:{{ .Tag }}-arm64'
+    dockerfile: Dockerfile
+    use: buildx
+    goarch: arm64
+    build_flag_templates:
+      - "--platform=linux/arm64/v8"
+
+docker_manifests:
+  - name_template: '{{ .Env.REGISTRY }}/{{ .Env.IMAGE_NAME }}:{{ .Tag }}'
+    image_templates:
+      - '{{ .Env.REGISTRY }}/{{ .Env.IMAGE_NAME }}:{{ .Tag }}-amd64'
+      - '{{ .Env.REGISTRY }}/{{ .Env.IMAGE_NAME }}:{{ .Tag }}-arm'
+      - '{{ .Env.REGISTRY }}/{{ .Env.IMAGE_NAME }}:{{ .Tag }}-arm64'
